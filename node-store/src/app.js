@@ -25,9 +25,10 @@ em json
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
+const config = require('./config');
 
 //Conecta com o banco
-mongoose.connect("mongodb://vagneralcantara:vagneralcantara15@ds064748.mlab.com:64748/nodestoredb");
+mongoose.connect(config.connectionString);
 
 
 //Carregar modelos
