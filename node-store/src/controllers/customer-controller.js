@@ -32,7 +32,8 @@ exports.post = async (req, res, next) => {
         )
 
         res.status(201).send({
-            message: 'Cliente cadastrado com sucesso!'
+            message: 'Cliente cadastrado com sucesso!',
+
         });
     } catch (e) {
         res.status(500).send({
@@ -40,8 +41,6 @@ exports.post = async (req, res, next) => {
         });
     }
 };
-
-
 
 exports.authenticate = async (req, res, next) => {
 
@@ -59,12 +58,56 @@ exports.authenticate = async (req, res, next) => {
             return;
         }
         const token = await authService.generateToken({
+            id: customer.id,
             email: customer.email,
             name: customer.name
         });
 
         res.status(201).send({
             token: token,
+            data: {
+                email: customer.email,
+                name: customer.name
+            }
+        });
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
+        });
+    }
+};
+
+exports.refresh = async (req, res, next) => {
+
+    try {
+
+        //Recupera o token
+        var token = req.body.token ||
+            req.query.token ||
+            req.headers['x-access-token'];
+
+        //Decodifica token
+        var data = await authService.decodeToken(token);
+
+
+        const customer = await repository.getById(data.id);
+
+        
+        if (!customer) {
+            res.status(401).send({
+                message: "Cliente não encontrado"
+            });
+
+            return;
+        }
+        const tokenData = await authService.generateToken({
+            id: customer.id,
+            email: customer.email,
+            name: customer.name
+        });
+
+        res.status(201).send({
+            token: tokenData,
             data: {
                 email: customer.email,
                 name: customer.name
