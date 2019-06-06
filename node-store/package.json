@@ -11,12 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "base64url": "^3.0.1",
     "body-parser": "^1.18.3",
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "guide": "^1.1.0",
     "http": "0.0.0",
-    "jsonwebtoken": "^7.4.0",
+    "jsonwebtoken": "^8.5.1",
     "md5": "^2.2.1",
     "mongoose": "^5.4.5",
     "sendgrid": "^2.0.0"
