@@ -42,7 +42,18 @@ const productRoute = require('./routes/products-route');
 const customerRoute = require('./routes/customer-route');
 const orderRoute = require('./routes/order-route');
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    limit: '5mb' // aumentando o limite para 5mb
+}));
+
+//Habilita CORS
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');// quando houver url especifica, colocá-las aqui, aqui se limita que pode acessar
+    res.header('Access-Control-Allow-Origin', 'Orgin, X-Requested-With, Content-Type, Accept, x-access-token');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+})
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/', indexRoute);
